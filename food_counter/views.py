@@ -61,18 +61,14 @@ class DateUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 class MealCreateView(LoginRequiredMixin, CreateView):
     model = Meal
-    success_url = '/meal/list'
+    success_url = "/"
     form_class = MealForm
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         self.object = form.save()
         self.object.save()
-        next_page = self.request.GET.get('next', None)
-        if next_page:
-            return redirect(next_page)
-        else:
-            return super().form_valid(form)
+        return super().form_valid(form)
 
 
 class MealUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
